@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
 	[Tooltip("Number of meter by second")]
