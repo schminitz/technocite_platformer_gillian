@@ -9,12 +9,13 @@ public class Player : MonoBehaviour
 	public float speed;
 
 	Vector2 velocity = new Vector2();
+	MovementController movementController;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+		movementController = GetComponent<MovementController>();
+	}
 
     // Update is called once per frame
     void Update()
@@ -40,6 +41,6 @@ public class Player : MonoBehaviour
 		}
 
 		velocity = new Vector2(horizontal * speed, vertical * speed);
-		transform.Translate(velocity * Time.deltaTime);
+		movementController.Move(velocity * Time.deltaTime);
 	}
 }
