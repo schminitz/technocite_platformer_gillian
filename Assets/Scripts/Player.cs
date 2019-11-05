@@ -7,8 +7,13 @@ public class Player : MonoBehaviour
 {
 	[Tooltip("Number of meter by second")]
 	public float speed;
-	public float gravity;
-	public float jumpForce;
+	[Tooltip("Unity value of max jump height")]
+	public float jumpHeight;
+	[Tooltip("Time in seconds to reach the jump height")]
+	public float timeToMaxJump;
+
+	float gravity;
+	float jumpForce;
 
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
@@ -17,10 +22,14 @@ public class Player : MonoBehaviour
     void Start()
     {
 		movementController = GetComponent<MovementController>();
+
+		// Math calculation for gravity and jumpForce
+		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
+		jumpForce = Mathf.Abs(gravity) * timeToMaxJump;
 	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
 		int horizontal = 0;
 
@@ -43,7 +52,7 @@ public class Player : MonoBehaviour
 
 		velocity.x = horizontal * speed;
 
-		velocity.y += gravity * Time.deltaTime * -1f;
+		velocity.y += gravity * Time.deltaTime;
 
 		movementController.Move(velocity * Time.deltaTime);
 	}
