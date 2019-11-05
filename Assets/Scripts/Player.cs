@@ -11,9 +11,12 @@ public class Player : MonoBehaviour
 	public float jumpHeight;
 	[Tooltip("Time in seconds to reach the jump height")]
 	public float timeToMaxJump;
+	[Tooltip("Can i change direction in air?")]
+	public bool airControl;
 
 	float gravity;
 	float jumpForce;
+	int horizontal = 0;
 
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
@@ -31,18 +34,21 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		int horizontal = 0;
-
 		if(movementController.collisions.bottom || movementController.collisions.top)
 			velocity.y = 0;
 
-		if(Input.GetKey(KeyCode.D))
+		if (movementController.collisions.bottom || airControl)
 		{
-			horizontal += 1;
-		}
-		if(Input.GetKey(KeyCode.Q))
-		{
-			horizontal -= 1;
+			horizontal = 0;
+
+			if(Input.GetKey(KeyCode.D))
+			{
+				horizontal += 1;
+			}
+			if(Input.GetKey(KeyCode.Q))
+			{
+				horizontal -= 1;
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.Space) && movementController.collisions.bottom)
