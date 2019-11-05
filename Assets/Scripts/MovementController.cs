@@ -51,6 +51,9 @@ public class MovementController : MonoBehaviour
 		if (velocity.y != 0)
 			VerticalMove(ref velocity);
 
+		//float newpos = transform.position.y + velocity.y;
+		//if(newpos < -0.51f)
+		//	Debug.Break();
 		transform.Translate(velocity);
 	}
 
@@ -107,6 +110,15 @@ public class MovementController : MonoBehaviour
 				distance,
 				layerObstacle
 				);
+			if (i == 0)
+			{
+				//Debug.Log("origin.y:" + origin.y);
+				//Debug.Log("direction:" + direction);
+				//Debug.Log("distance:" + distance);
+				//Debug.Log("bottomLeft.y:" + bottomLeft.y);
+				//Debug.Log("baseOrigin.y:" + baseOrigin.y);
+				//Debug.Log("bounds.min.y:" + (boxCollider.bounds.min.y + skinWidth));
+			}
 
 			if(hit)
 			{

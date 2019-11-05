@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
-	public float acceleration;
 	[Tooltip("Number of meter by second")]
 	public float maxSpeed;
+	public float timeToMaxSpeed;
+	float acceleration;
 	float minSpeedThreshold;
 
 	[Tooltip("Unity value of max jump height")]
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
 
 	float gravity;
 	float jumpForce;
+	float maxFallingSpeed;
 	int horizontal = 0;
 
 	Vector2 velocity = new Vector2();
@@ -28,13 +30,22 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		acceleration *= 60f;
+		// Math calculation acceleration
+		// s = distance
+		// a = acceleration
+		// t = time
+		// s = 1 / 2 at²
+		// a = 2s / t²
+		acceleration = (2f * maxSpeed) / Mathf.Pow(timeToMaxSpeed, 2);
+
+		Debug.Log(acceleration);
 		minSpeedThreshold = acceleration / Application.targetFrameRate * 2f;
 		movementController = GetComponent<MovementController>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
 		jumpForce = Mathf.Abs(gravity) * timeToMaxJump;
+		maxFallingSpeed = -jumpForce;
 	}
 
 	// Update is called once per frame
@@ -82,6 +93,8 @@ public class Player : MonoBehaviour
 		}
 
 		velocity.y += gravity * Time.deltaTime;
+		if(velocity.y < maxFallingSpeed)
+			velocity.y = maxFallingSpeed;
 
 		movementController.Move(velocity * Time.deltaTime);
 	}
