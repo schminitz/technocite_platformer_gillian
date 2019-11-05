@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
 	[Tooltip("Number of meter by second")]
 	public float speed;
+	public float gravity;
+	public float jumpForce;
 
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
@@ -21,7 +23,9 @@ public class Player : MonoBehaviour
     void Update()
     {
 		int horizontal = 0;
-		int vertical = 0;
+
+		if(movementController.collisions.bottom || movementController.collisions.top)
+			velocity.y = 0;
 
 		if(Input.GetKey(KeyCode.D))
 		{
@@ -31,16 +35,21 @@ public class Player : MonoBehaviour
 		{
 			horizontal -= 1;
 		}
-		if(Input.GetKey(KeyCode.Z))
+
+		if (Input.GetKeyDown(KeyCode.Space) && movementController.collisions.bottom)
 		{
-			vertical += 1;
-		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			vertical -= 1;
+			Jump();
 		}
 
-		velocity = new Vector2(horizontal * speed, vertical * speed);
+		velocity.x = horizontal * speed;
+
+		velocity.y += gravity * Time.deltaTime * -1f;
+
 		movementController.Move(velocity * Time.deltaTime);
+	}
+
+	void Jump()
+	{
+		velocity.y = jumpForce;
 	}
 }
