@@ -5,14 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
+	public float acceleration;
 	[Tooltip("Number of meter by second")]
-	public float speed;
+	public float maxSpeed;
+	float minSpeedThreshold;
+
 	[Tooltip("Unity value of max jump height")]
 	public float jumpHeight;
 	[Tooltip("Time in seconds to reach the jump height")]
 	public float timeToMaxJump;
 	[Tooltip("Can i change direction in air?")]
-	public bool airControl;
+	[Range(0, 1)]
+	public float airControl;
 
 	float gravity;
 	float jumpForce;
@@ -24,6 +28,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		acceleration *= 60f;
+		minSpeedThreshold = acceleration / Application.targetFrameRate * 2f;
 		movementController = GetComponent<MovementController>();
 
 		// Math calculation for gravity and jumpForce
@@ -37,18 +43,15 @@ public class Player : MonoBehaviour
 		if(movementController.collisions.bottom || movementController.collisions.top)
 			velocity.y = 0;
 
-		if (movementController.collisions.bottom || airControl)
-		{
-			horizontal = 0;
+		horizontal = 0;
 
-			if(Input.GetKey(KeyCode.D))
-			{
-				horizontal += 1;
-			}
-			if(Input.GetKey(KeyCode.Q))
-			{
-				horizontal -= 1;
-			}
+		if(Input.GetKey(KeyCode.D))
+		{
+			horizontal += 1;
+		}
+		if(Input.GetKey(KeyCode.Q))
+		{
+			horizontal -= 1;
 		}
 
 		if (Input.GetKeyDown(KeyCode.Space) && movementController.collisions.bottom)
@@ -56,7 +59,27 @@ public class Player : MonoBehaviour
 			Jump();
 		}
 
-		velocity.x = horizontal * speed;
+		float controlModifier = 1f;
+		if (!movementController.collisions.bottom)
+		{
+			controlModifier = airControl;
+		}
+
+		velocity.x += horizontal * acceleration * controlModifier * Time.deltaTime;
+		if(velocity.x > maxSpeed)
+			velocity.x = maxSpeed;
+		if(velocity.x < -maxSpeed)
+			velocity.x = -maxSpeed;
+
+		if (horizontal == 0)
+		{
+			if(velocity.x > minSpeedThreshold)
+				velocity.x -= acceleration * Time.deltaTime;
+			else if(velocity.x < -minSpeedThreshold)
+				velocity.x += acceleration * Time.deltaTime;
+			else
+				velocity.x = 0;
+		}
 
 		velocity.y += gravity * Time.deltaTime;
 
