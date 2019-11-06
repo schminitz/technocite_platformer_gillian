@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 	bool doubleJumping;
 
 	Animator anim;
+	SpriteRenderer spriteRenderer;
 
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
 		minSpeedThreshold = acceleration / Application.targetFrameRate * 2f;
 		movementController = GetComponent<MovementController>();
 		anim = GetComponent<Animator>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
@@ -85,6 +87,7 @@ public class Player : MonoBehaviour
 		}
 
 		UpdateJump();
+		UpdateFlip();
 
 		float controlModifier = 1f;
 		if (!movementController.collisions.bottom)
@@ -136,14 +139,14 @@ public class Player : MonoBehaviour
 		// En l'air
 		else
 		{
-			if (doubleJumping)
-				anim.Play("FrogDoubleJumping");
-			else if(velocity.y > 0)
-				anim.Play("FrogJumping");
-			else if(velocity.y < 0)
-				anim.Play("FrogFalling");
+			if (!doubleJumping)
+			{
+				if(velocity.y > 0)
+					anim.Play("FrogJumping");
+				else if(velocity.y < 0)
+					anim.Play("FrogFalling");
+			}
 		}
-		
 	}
 
 	void UpdateAnimationByParameters()
@@ -156,6 +159,20 @@ public class Player : MonoBehaviour
 		anim.SetInteger("vertical", vertical);
 		anim.SetBool("grounded", movementController.collisions.bottom);
 		anim.SetBool("doubleJumping", doubleJumping);
+	}
+
+	void UpdateFlip()
+	{
+		if(horizontal > 0)
+		{
+			// regarde vers la droite
+			spriteRenderer.flipX = false;
+		}
+		else if (horizontal < 0)
+		{
+			// regarde vers la gauche
+			spriteRenderer.flipX = true;
+		}
 	}
 
 	void UpdateJump()
@@ -173,11 +190,31 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	IEnumerator DoubleJumpCoroutine()
+	{
+		doubleJumping = true;
+		anim.Play("FrogDoubleJumping");
+
+		while(!anim.GetCurrentAnimatorStateInfo(0).IsName("FrogDoubleJumping"))
+		{
+			yield return null;
+		}
+
+		while (true)
+		{
+			if(!anim.GetCurrentAnimatorStateInfo(0).IsName("FrogDoubleJumping") ||
+				movementController.collisions.bottom)
+				break;
+			yield return null;
+		}
+		doubleJumping = false;
+	}
+
 	void Jump()
 	{
 		if(!movementController.collisions.bottom)
 		{
-			doubleJumping = true;
+			StartCoroutine(DoubleJumpCoroutine());
 
 			// Add one more jumpCount if falling without previous jump
 			if(jumpCount == 0)
