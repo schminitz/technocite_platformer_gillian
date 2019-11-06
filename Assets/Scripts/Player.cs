@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 	float jumpForce;
 	float maxFallingSpeed;
 	int horizontal = 0;
+	bool doubleJumping;
 
 	Animator anim;
 
@@ -100,20 +101,46 @@ public class Player : MonoBehaviour
 		if(velocity.y < maxFallingSpeed)
 			velocity.y = maxFallingSpeed;
 
-		anim.SetFloat("speed", velocity.x);
-
 		movementController.Move(velocity * Time.deltaTime);
 
 		if(Input.GetKeyDown(KeyCode.H))
 		{
 			anim.SetTrigger("hit");
 		}
+
+		UpdateAnimation();
+	}
+
+	void UpdateAnimation()
+	{
+		// Au sol
+		if (movementController.collisions.bottom)
+		{
+			if(velocity.x == 0)
+				anim.Play("FrogIdle");
+			else if(velocity.x != 0)
+				anim.Play("FrogRun");
+		}
+		// En l'air
+		else
+		{
+			if (doubleJumping)
+				anim.Play("FrogDoubleJumping");
+			else if(velocity.y > 0)
+				anim.Play("FrogJumping");
+			else if(velocity.y < 0)
+				anim.Play("FrogFalling");
+		}
+		
 	}
 
 	void UpdateJump()
 	{
 		if (movementController.collisions.bottom)
+		{
 			jumpCount = 0;
+			doubleJumping = false;
+		}
 
 		if (Input.GetKeyDown(KeyCode.Space) &&
 		    jumpCount <= maxAirJump)
@@ -124,6 +151,9 @@ public class Player : MonoBehaviour
 
 	void Jump()
 	{
+		if(jumpCount > 0)
+			doubleJumping = true;
+
 		jumpCount++;
 		velocity.y = jumpForce;
 	}

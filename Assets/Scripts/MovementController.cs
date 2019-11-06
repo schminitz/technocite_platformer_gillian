@@ -65,8 +65,7 @@ public class MovementController : MonoBehaviour
 		{
 			Vector2 origin = baseOrigin + new Vector2(0, verticalRaySpacing * i);
 
-			//Debug.DrawLine(origin, origin + new Vector2(direction * 1, 0));
-			Debug.DrawLine(origin, origin + new Vector2(direction * distance, 0));
+			//Debug.DrawLine(origin, origin + new Vector2(direction * distance, 0));
 			RaycastHit2D hit = Physics2D.Raycast(
 				origin,
 				new Vector2(direction, 0),
@@ -101,7 +100,7 @@ public class MovementController : MonoBehaviour
 		{
 			Vector2 origin = baseOrigin + new Vector2(horizontalRaySpacing * i, 0);
 
-			Debug.DrawLine(origin, origin + new Vector2(0, direction * distance));
+			//Debug.DrawLine(origin, origin + new Vector2(0, direction * distance));
 			RaycastHit2D hit = Physics2D.Raycast(
 				origin,
 				new Vector2(0, direction),
