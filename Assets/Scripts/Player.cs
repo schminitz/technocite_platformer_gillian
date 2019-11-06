@@ -114,9 +114,19 @@ public class Player : MonoBehaviour
 				velocity.x = 0;
 		}
 
-		velocity.y += gravity * Time.deltaTime;
+		if((movementController.collisions.left || movementController.collisions.right) && velocity.y < 0)
+		{
+			velocity.y += gravity * Time.deltaTime / 3f;
+		}
+		else
+		{
+			velocity.y += gravity * Time.deltaTime;
+		}
+
 		if(velocity.y < maxFallingSpeed)
+		{
 			velocity.y = maxFallingSpeed;
+		}
 
 		UpdateJump();
 		UpdateFlip();
@@ -142,7 +152,10 @@ public class Player : MonoBehaviour
 		{
 			if (!doubleJumping)
 			{
-				if(velocity.y > 0)
+				if (movementController.collisions.left ||
+					movementController.collisions.right)
+					anim.Play("FrogWallSticking");
+				else if(velocity.y > 0)
 					anim.Play("FrogJumping");
 				else if(velocity.y < 0)
 					anim.Play("FrogFalling");
