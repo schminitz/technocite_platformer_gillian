@@ -5,11 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
+	delegate void MyDelegate();
+	MyDelegate UpdateAnimation;
+
 	[Tooltip("Number of meter by second")]
 	public float maxSpeed;
 	public float timeToMaxSpeed;
 
 	public uint maxAirJump;
+
+	public bool animationByParameters;
+
 	int jumpCount;
 
 	float acceleration;
@@ -54,6 +60,11 @@ public class Player : MonoBehaviour
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
 		jumpForce = Mathf.Abs(gravity) * timeToMaxJump;
 		maxFallingSpeed = -jumpForce;
+
+		if(animationByParameters)
+			UpdateAnimation = UpdateAnimationByParameters;
+		else
+			UpdateAnimation = UpdateAnimationByCode;
 	}
 
 	// Update is called once per frame
@@ -109,9 +120,10 @@ public class Player : MonoBehaviour
 		}
 
 		UpdateAnimation();
+
 	}
 
-	void UpdateAnimation()
+	void UpdateAnimationByCode()
 	{
 		// Au sol
 		if (movementController.collisions.bottom)
@@ -132,6 +144,11 @@ public class Player : MonoBehaviour
 				anim.Play("FrogFalling");
 		}
 		
+	}
+
+	void UpdateAnimationByParameters()
+	{
+		anim.SetInteger("horizontal", horizontal);
 	}
 
 	void UpdateJump()
