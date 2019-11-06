@@ -9,8 +9,7 @@ public class Player : MonoBehaviour
 	public float maxSpeed;
 	public float timeToMaxSpeed;
 
-	[Range(0, 1)]
-	public int maxAirJump;
+	public uint maxAirJump;
 	int jumpCount;
 
 	float acceleration;
