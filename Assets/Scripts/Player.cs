@@ -8,19 +8,13 @@ public class Player : MonoBehaviour
 	delegate void MyDelegate();
 	MyDelegate UpdateAnimation;
 
+	[Header("Run speed")]
 	[Tooltip("Number of meter by second")]
 	public float maxSpeed;
 	public float timeToMaxSpeed;
 
+	[Header("Jump")]
 	public uint maxAirJump;
-
-	public bool animationByParameters;
-
-	int jumpCount;
-
-	float acceleration;
-	float minSpeedThreshold;
-
 	[Tooltip("Unity value of max jump height")]
 	public float jumpHeight;
 	[Tooltip("Time in seconds to reach the jump height")]
@@ -28,6 +22,14 @@ public class Player : MonoBehaviour
 	[Tooltip("Can i change direction in air?")]
 	[Range(0, 1)]
 	public float airControl;
+
+	[Header("Other")]
+	public bool animationByParameters;
+
+	int doubleJumpCount;
+
+	float acceleration;
+	float minSpeedThreshold;
 
 	float gravity;
 	float jumpForce;
@@ -52,7 +54,6 @@ public class Player : MonoBehaviour
 		// a = 2s / t²
 		acceleration = (2f * maxSpeed) / Mathf.Pow(timeToMaxSpeed, 2);
 
-		Debug.Log(acceleration);
 		minSpeedThreshold = acceleration / Application.targetFrameRate * 2f;
 		movementController = GetComponent<MovementController>();
 		anim = GetComponent<Animator>();
@@ -72,6 +73,11 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+		if(Input.GetKeyDown(KeyCode.H))
+		{
+			anim.SetTrigger("hit");
+		}
+
 		if(movementController.collisions.bottom || movementController.collisions.top)
 			velocity.y = 0;
 
@@ -85,9 +91,6 @@ public class Player : MonoBehaviour
 		{
 			horizontal -= 1;
 		}
-
-		UpdateJump();
-		UpdateFlip();
 
 		float controlModifier = 1f;
 		if (!movementController.collisions.bottom)
@@ -115,12 +118,10 @@ public class Player : MonoBehaviour
 		if(velocity.y < maxFallingSpeed)
 			velocity.y = maxFallingSpeed;
 
-		movementController.Move(velocity * Time.deltaTime);
+		UpdateJump();
+		UpdateFlip();
 
-		if(Input.GetKeyDown(KeyCode.H))
-		{
-			anim.SetTrigger("hit");
-		}
+		movementController.Move(velocity * Time.deltaTime);
 
 		UpdateAnimation();
 
@@ -163,12 +164,12 @@ public class Player : MonoBehaviour
 
 	void UpdateFlip()
 	{
-		if(horizontal > 0)
+		if(velocity.x > 0)
 		{
 			// regarde vers la droite
 			spriteRenderer.flipX = false;
 		}
-		else if (horizontal < 0)
+		else if (velocity.x < 0)
 		{
 			// regarde vers la gauche
 			spriteRenderer.flipX = true;
@@ -179,19 +180,54 @@ public class Player : MonoBehaviour
 	{
 		if (movementController.collisions.bottom)
 		{
-			jumpCount = 0;
+			doubleJumpCount = 0;
 			doubleJumping = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) &&
-		    jumpCount <= maxAirJump)
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Jump();
+			// Normal jump
+			if(movementController.collisions.bottom)
+			{
+				Jump();
+			}
+			// Wall jump
+			else if(
+				!movementController.collisions.bottom &&
+				(movementController.collisions.left ||
+				 movementController.collisions.right))
+			{
+				WallJump();
+			}
+			// Normal or airJump
+			else if(doubleJumpCount < maxAirJump && !movementController.collisions.bottom)
+			{
+				DoubleJump();
+			}
 		}
+	}
+
+	void Jump()
+	{
+		velocity.y = jumpForce;
+	}
+
+	void WallJump()
+	{
+		int direction = movementController.collisions.left ? 1 : -1;
+		velocity.x = maxSpeed * direction;
+		Jump();
+	}
+
+	void DoubleJump()
+	{
+		StartCoroutine(DoubleJumpCoroutine());
 	}
 
 	IEnumerator DoubleJumpCoroutine()
 	{
+		Jump();
+		doubleJumpCount++;
 		doubleJumping = true;
 		anim.Play("FrogDoubleJumping");
 
@@ -200,7 +236,7 @@ public class Player : MonoBehaviour
 			yield return null;
 		}
 
-		while (true)
+		while(true)
 		{
 			if(!anim.GetCurrentAnimatorStateInfo(0).IsName("FrogDoubleJumping") ||
 				movementController.collisions.bottom)
@@ -208,20 +244,5 @@ public class Player : MonoBehaviour
 			yield return null;
 		}
 		doubleJumping = false;
-	}
-
-	void Jump()
-	{
-		if(!movementController.collisions.bottom)
-		{
-			StartCoroutine(DoubleJumpCoroutine());
-
-			// Add one more jumpCount if falling without previous jump
-			if(jumpCount == 0)
-				jumpCount++;
-		}
-
-		jumpCount++;
-		velocity.y = jumpForce;
 	}
 }

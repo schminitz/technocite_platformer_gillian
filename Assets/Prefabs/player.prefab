@@ -142,11 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
-  timeToMaxSpeed: 0.3
+  timeToMaxSpeed: 0.5
   maxAirJump: 1
-  jumpHeight: 5
+  jumpHeight: 3
   timeToMaxJump: 0.3
   airControl: 0.25
+  animationByParameters: 0
 --- !u!50 &152382302
 Rigidbody2D:
   serializedVersion: 4
