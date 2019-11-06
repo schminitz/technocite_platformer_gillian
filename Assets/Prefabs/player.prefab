@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 10
   timeToMaxSpeed: 0.3
+  maxAirJump: 1
   jumpHeight: 5
   timeToMaxJump: 0.3
   airControl: 0.25

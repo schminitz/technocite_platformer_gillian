@@ -56,8 +56,6 @@ public class MovementController : MonoBehaviour
 
 	void HorizontalMove(ref Vector2 velocity)
 	{
-		// XXX brique sort du mur, reassign valeur de distance dans le boucle
-
 		float direction = Mathf.Sign(velocity.x);
 		float distance = Mathf.Abs(velocity.x) + skinWidth;
 
@@ -78,13 +76,16 @@ public class MovementController : MonoBehaviour
 
 			if (hit)
 			{
-				velocity.x = (hit.distance - skinWidth) * direction;
-				distance = hit.distance - skinWidth;
+				if(!(hit.transform.gameObject.tag == "oneWayPlatform"))
+				{
+					velocity.x = (hit.distance - skinWidth) * direction;
+					distance = hit.distance - skinWidth;
 
-				if(direction < 0)
-					collisions.left = true;
-				else if(direction > 0)
-					collisions.right = true;
+					if(direction < 0)
+						collisions.left = true;
+					else if(direction > 0)
+						collisions.right = true;
+				}
 			}
 		}
 	}

@@ -8,6 +8,11 @@ public class Player : MonoBehaviour
 	[Tooltip("Number of meter by second")]
 	public float maxSpeed;
 	public float timeToMaxSpeed;
+
+	[Range(0, 1)]
+	public int maxAirJump;
+	int jumpCount;
+
 	float acceleration;
 	float minSpeedThreshold;
 
@@ -65,10 +70,7 @@ public class Player : MonoBehaviour
 			horizontal -= 1;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && movementController.collisions.bottom)
-		{
-			Jump();
-		}
+		UpdateJump();
 
 		float controlModifier = 1f;
 		if (!movementController.collisions.bottom)
@@ -99,8 +101,21 @@ public class Player : MonoBehaviour
 		movementController.Move(velocity * Time.deltaTime);
 	}
 
+	void UpdateJump()
+	{
+		if (movementController.collisions.bottom)
+			jumpCount = 0;
+
+		if (Input.GetKeyDown(KeyCode.Space) &&
+		    jumpCount <= maxAirJump)
+		{
+			Jump();
+		}
+	}
+
 	void Jump()
 	{
+		jumpCount++;
 		velocity.y = jumpForce;
 	}
 }
