@@ -148,7 +148,14 @@ public class Player : MonoBehaviour
 
 	void UpdateAnimationByParameters()
 	{
+		int vertical = (int)Mathf.Sign(velocity.y);
+		if(movementController.collisions.bottom)
+			vertical = 0;
+
 		anim.SetInteger("horizontal", horizontal);
+		anim.SetInteger("vertical", vertical);
+		anim.SetBool("grounded", movementController.collisions.bottom);
+		anim.SetBool("doubleJumping", doubleJumping);
 	}
 
 	void UpdateJump()
@@ -168,8 +175,14 @@ public class Player : MonoBehaviour
 
 	void Jump()
 	{
-		if(jumpCount > 0)
+		if(!movementController.collisions.bottom)
+		{
 			doubleJumping = true;
+
+			// Add one more jumpCount if falling without previous jump
+			if(jumpCount == 0)
+				jumpCount++;
+		}
 
 		jumpCount++;
 		velocity.y = jumpForce;
