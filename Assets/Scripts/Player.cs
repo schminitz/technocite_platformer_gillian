@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
 	float maxFallingSpeed;
 	int horizontal = 0;
 
+	Animator anim;
+
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
 
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
 		Debug.Log(acceleration);
 		minSpeedThreshold = acceleration / Application.targetFrameRate * 2f;
 		movementController = GetComponent<MovementController>();
+		anim = GetComponent<Animator>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
@@ -97,7 +100,14 @@ public class Player : MonoBehaviour
 		if(velocity.y < maxFallingSpeed)
 			velocity.y = maxFallingSpeed;
 
+		anim.SetFloat("speed", velocity.x);
+
 		movementController.Move(velocity * Time.deltaTime);
+
+		if(Input.GetKeyDown(KeyCode.H))
+		{
+			anim.SetTrigger("hit");
+		}
 	}
 
 	void UpdateJump()
