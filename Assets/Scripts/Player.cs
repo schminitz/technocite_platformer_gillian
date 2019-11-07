@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementController))]
+[RequireComponent(typeof(AnimationTimes))]
 public class Player : MonoBehaviour
 {
 	delegate void MyDelegate();
@@ -196,6 +197,9 @@ public class Player : MonoBehaviour
 
 	void UpdateFlip()
 	{
+		if(freeze)
+			return;
+
 		if(velocity.x > 0)
 		{
 			// regarde vers la droite
@@ -284,19 +288,21 @@ public class Player : MonoBehaviour
 
 		if (enemy != null)
 		{
-			HitEnemy();
+			HitEnemy(enemy);
 		}
 	}
 
 	Coroutine hitEnemy;
-	void HitEnemy()
+	void HitEnemy(Enemy enemy)
 	{
 		if (hitEnemy == null)
-			hitEnemy = StartCoroutine(HitEnemyCoroutine());
+			hitEnemy = StartCoroutine(HitEnemyCoroutine(enemy));
 	}
 
-	IEnumerator HitEnemyCoroutine()
+	IEnumerator HitEnemyCoroutine(Enemy enemy)
 	{
+		// XXX pushback
+		velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
 		anim.Play("FrogHit");
 		freeze = true;
 

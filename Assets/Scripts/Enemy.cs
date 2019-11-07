@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	public float speed;
 	public bool facingRight;
 	public float stopTimeOnFlip;
+	public float pushBackForce;
 
 	MovementController movementController;
 	SpriteRenderer spriteRenderer;
