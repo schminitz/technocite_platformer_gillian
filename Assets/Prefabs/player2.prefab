@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1979394841
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -6367560908665664636, guid: 7f601c221bf42414c99ce31899666e94,
     type: 3}
@@ -144,10 +144,10 @@ MonoBehaviour:
   maxSpeed: 10
   timeToMaxSpeed: 0.3
   maxAirJump: 1
-  animationByParameters: 1
   jumpHeight: 5
   timeToMaxJump: 0.3
   airControl: 0.25
+  animationByParameters: 1
 --- !u!50 &152382302
 Rigidbody2D:
   serializedVersion: 4
