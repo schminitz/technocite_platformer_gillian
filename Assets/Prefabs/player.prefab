@@ -144,7 +144,7 @@ MonoBehaviour:
   maxSpeed: 10
   timeToMaxSpeed: 0.5
   maxAirJump: 1
-  jumpHeight: 3
+  jumpHeight: 3.8
   timeToMaxJump: 0.3
   airControl: 0.25
   animationByParameters: 0

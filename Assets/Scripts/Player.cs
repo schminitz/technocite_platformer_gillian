@@ -78,8 +78,26 @@ public class Player : MonoBehaviour
 			anim.SetTrigger("hit");
 		}
 
-		if(movementController.collisions.bottom || movementController.collisions.top)
-			velocity.y = 0;
+		UpdateHorizontalControl();
+		UpdateGravity();
+		UpdateJump();
+		UpdateFlip();
+
+		movementController.Move(velocity * Time.deltaTime);
+
+		UpdateAnimation();
+	}
+
+	void UpdateHorizontalControl()
+	{
+		// Reset velocity at start of frame is hitting wall
+		// Then I will add one frame of velocity to stay sticking on wall for example
+		// But I want my speed to stop when reaching wall
+		if((velocity.x > 0 && movementController.collisions.right) ||
+			(velocity.x < 0 && movementController.collisions.left))
+		{
+			velocity.x = 0;
+		}
 
 		horizontal = 0;
 
@@ -91,9 +109,9 @@ public class Player : MonoBehaviour
 		{
 			horizontal -= 1;
 		}
-
+		
 		float controlModifier = 1f;
-		if (!movementController.collisions.bottom)
+		if(!movementController.collisions.bottom)
 		{
 			controlModifier = airControl;
 		}
@@ -104,7 +122,7 @@ public class Player : MonoBehaviour
 			velocity.x = maxSpeed * horizontal;
 
 
-		if (horizontal == 0)
+		if(horizontal == 0)
 		{
 			if(velocity.x > minSpeedThreshold)
 				velocity.x -= acceleration * Time.deltaTime;
@@ -113,6 +131,13 @@ public class Player : MonoBehaviour
 			else
 				velocity.x = 0;
 		}
+	}
+
+	void UpdateGravity()
+	{
+		if(movementController.collisions.bottom || movementController.collisions.top)
+			velocity.y = 0;
+
 
 		if((movementController.collisions.left || movementController.collisions.right) && velocity.y < 0)
 		{
@@ -127,14 +152,6 @@ public class Player : MonoBehaviour
 		{
 			velocity.y = maxFallingSpeed;
 		}
-
-		UpdateJump();
-		UpdateFlip();
-
-		movementController.Move(velocity * Time.deltaTime);
-
-		UpdateAnimation();
-
 	}
 
 	void UpdateAnimationByCode()
@@ -142,9 +159,9 @@ public class Player : MonoBehaviour
 		// Au sol
 		if (movementController.collisions.bottom)
 		{
-			if(velocity.x == 0)
+			if(horizontal == 0)
 				anim.Play("FrogIdle");
-			else if(velocity.x != 0)
+			else if(horizontal != 0)
 				anim.Play("FrogRun");
 		}
 		// En l'air
