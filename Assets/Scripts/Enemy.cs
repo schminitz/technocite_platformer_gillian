@@ -7,16 +7,20 @@ public class Enemy : MonoBehaviour
 {
 	public float speed;
 	public bool facingRight;
+	public float stopTimeOnFlip;
 
 	MovementController movementController;
 	SpriteRenderer spriteRenderer;
 	Vector2 velocity = new Vector2();
+	Coroutine flipCoroutine;
+	Animator anim;
 
 	// Start is called before the first frame update
 	void Start()
     {
 		movementController = GetComponent<MovementController>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		anim = GetComponent<Animator>();
 		velocity.x = speed;
 
 		if(!facingRight)
@@ -56,7 +60,23 @@ public class Enemy : MonoBehaviour
 	/// </summary>
 	void Flip()
 	{
+		if (flipCoroutine == null)
+			flipCoroutine = StartCoroutine(FlipCoroutine());
+	}
+
+	IEnumerator FlipCoroutine()
+	{
+		float actualVelocity = velocity.x;
+		velocity.x = 0;
+
+		anim.Play("idle");
+
+		yield return new WaitForSeconds(stopTimeOnFlip);
+
+		anim.Play("run");
+
 		spriteRenderer.flipX = !spriteRenderer.flipX;
-		velocity.x *= -1;
+		velocity.x = actualVelocity * -1f;
+		flipCoroutine = null;
 	}
 }
