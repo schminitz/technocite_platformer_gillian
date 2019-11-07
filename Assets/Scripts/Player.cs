@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
 
+	bool freeze;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,11 +75,6 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		if(Input.GetKeyDown(KeyCode.H))
-		{
-			anim.SetTrigger("hit");
-		}
-
 		UpdateHorizontalControl();
 		UpdateGravity();
 		UpdateJump();
@@ -101,11 +98,11 @@ public class Player : MonoBehaviour
 
 		horizontal = 0;
 
-		if(Input.GetKey(KeyCode.D))
+		if(Input.GetKey(KeyCode.D) && !freeze)
 		{
 			horizontal += 1;
 		}
-		if(Input.GetKey(KeyCode.Q))
+		if(Input.GetKey(KeyCode.Q) && !freeze)
 		{
 			horizontal -= 1;
 		}
@@ -156,6 +153,9 @@ public class Player : MonoBehaviour
 
 	void UpdateAnimationByCode()
 	{
+		if(freeze)
+			return;
+
 		// Au sol
 		if (movementController.collisions.bottom)
 		{
@@ -214,7 +214,7 @@ public class Player : MonoBehaviour
 			doubleJumping = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space) && !freeze)
 		{
 			// Normal jump
 			if(movementController.collisions.bottom)
@@ -274,5 +274,43 @@ public class Player : MonoBehaviour
 			yield return null;
 		}
 		doubleJumping = false;
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
+		if (enemy != null)
+		{
+			HitEnemy();
+		}
+	}
+
+	Coroutine hitEnemy;
+	void HitEnemy()
+	{
+		if (hitEnemy == null)
+			hitEnemy = StartCoroutine(HitEnemyCoroutine());
+	}
+
+	IEnumerator HitEnemyCoroutine()
+	{
+		anim.SetTrigger("hit");
+		freeze = true;
+
+		while(!anim.GetCurrentAnimatorStateInfo(0).IsName("FrogHit"))
+		{
+			yield return null;
+		}
+
+		while(anim.GetCurrentAnimatorStateInfo(0).IsName("FrogHit"))
+		{
+			yield return null;
+		}
+
+		SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
+		spawnPlayer.Spawn();
+
+		Destroy(gameObject);
 	}
 }
