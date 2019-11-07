@@ -21,10 +21,7 @@ public class Enemy : MonoBehaviour
 		movementController = GetComponent<MovementController>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator>();
-		velocity.x = speed;
-
-		if(!facingRight)
-			Flip();
+		StartFacing();
 	}
 
 	// Update is called once per frame
@@ -52,6 +49,19 @@ public class Enemy : MonoBehaviour
 		else if (movementController.collisions.frontPit)
 		{
 			Flip();
+		}
+	}
+
+	void StartFacing()
+	{
+		if(facingRight)
+		{
+			velocity.x = speed;
+		}
+		else
+		{
+			velocity.x = -speed;
+			spriteRenderer.flipX = !spriteRenderer.flipX;
 		}
 	}
 
