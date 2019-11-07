@@ -138,7 +138,7 @@ public class MovementController : MonoBehaviour
 	{
 		Vector2 origin = velocity.x > 0 ? bottomRight : bottomLeft;
 
-		Debug.DrawLine(origin, origin + Vector2.down * pitDistance);
+		//Debug.DrawLine(origin, origin + Vector2.down * pitDistance);
 		RaycastHit2D hit = Physics2D.Raycast(
 			origin,
 			Vector2.down,
