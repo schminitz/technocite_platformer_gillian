@@ -11,6 +11,7 @@ public class MovementController : MonoBehaviour
 	public Collisions collisions;
 
 	float skinWidth;
+	float pitDistance;
 
 	BoxCollider2D boxCollider;
 	Vector2 bottomLeft, bottomRight, topLeft, topRight;
@@ -21,10 +22,13 @@ public class MovementController : MonoBehaviour
 	public struct Collisions
 	{
 		public bool top, bottom, left, right;
+		// Est ce que j'ai un ravin en face de moi?
+		public bool frontPit;
 
 		public void Reset()
 		{
 			top = bottom = left = right = false;
+			frontPit = false;
 		}
 	}
 
@@ -33,6 +37,7 @@ public class MovementController : MonoBehaviour
     {
 		boxCollider = GetComponent<BoxCollider2D>();
 		skinWidth = 1 / 16f;
+		pitDistance = 0.5f;
 		CalculateRaySpacings();
 	}
 
@@ -50,6 +55,8 @@ public class MovementController : MonoBehaviour
 			HorizontalMove(ref velocity);
 		if (velocity.y != 0)
 			VerticalMove(ref velocity);
+
+		DetectFrontPit(velocity);
 
 		transform.Translate(velocity);
 	}
@@ -124,6 +131,24 @@ public class MovementController : MonoBehaviour
 						collisions.top = true;
 				}
 			}
+		}
+	}
+
+	void DetectFrontPit(Vector2 velocity)
+	{
+		Vector2 origin = velocity.x > 0 ? bottomRight : bottomLeft;
+
+		Debug.DrawLine(origin, origin + Vector2.down * pitDistance);
+		RaycastHit2D hit = Physics2D.Raycast(
+			origin,
+			Vector2.down,
+			pitDistance,
+			layerObstacle
+			);
+
+		if(!hit)
+		{
+			collisions.frontPit = true;
 		}
 	}
 

@@ -44,6 +44,11 @@ public class Enemy : MonoBehaviour
 		{
 			Flip();
 		}
+		// Si j'atteind un ravin, je flip
+		else if (movementController.collisions.frontPit)
+		{
+			Flip();
+		}
 	}
 
 	/// <summary>
