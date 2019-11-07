@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
 
 	Vector2 velocity = new Vector2();
 	MovementController movementController;
+	AnimationTimes animationTimes;
 
 	bool freeze;
 
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
 		movementController = GetComponent<MovementController>();
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		animationTimes = GetComponent<AnimationTimes>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
@@ -295,22 +297,16 @@ public class Player : MonoBehaviour
 
 	IEnumerator HitEnemyCoroutine()
 	{
-		anim.SetTrigger("hit");
+		anim.Play("FrogHit");
 		freeze = true;
 
-		while(!anim.GetCurrentAnimatorStateInfo(0).IsName("FrogHit"))
-		{
-			yield return null;
-		}
-
-		while(anim.GetCurrentAnimatorStateInfo(0).IsName("FrogHit"))
-		{
-			yield return null;
-		}
+		// Wait for the time of the FrogHit animation to be finished
+		yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
 
 		SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
 		spawnPlayer.Spawn();
 
+		freeze = false;
 		Destroy(gameObject);
 	}
 }
