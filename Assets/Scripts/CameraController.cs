@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+	enum ZoomingState { isZooming, isDezooming, zoomed, dezoomed }
+	ZoomingState zoomingState;
+
 	Player player;
 
 	Vector3 velocity;
@@ -23,6 +26,7 @@ public class CameraController : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+		zoomingState = ZoomingState.dezoomed;
 		cam = GetComponent<Camera>();
 		scene = FindObjectOfType<Scene>();
 
@@ -82,12 +86,24 @@ public class CameraController : MonoBehaviour
 	Coroutine zoomCoroutine;
 	public void Zoom(float magnitude, float duration = 1f)
 	{
+		if(zoomingState == ZoomingState.zoomed || zoomingState == ZoomingState.isZooming)
+			return;
+
+		if (zoomingState == ZoomingState.isDezooming)
+		{
+			if(dezoomCoroutine != null)
+			{
+				StopCoroutine(dezoomCoroutine);
+				dezoomCoroutine = null;
+			}
+		}
 		if (zoomCoroutine == null)
 			zoomCoroutine = StartCoroutine(ZoomCoroutine(magnitude, duration));
 	}
 
 	IEnumerator ZoomCoroutine(float magnitude, float duration)
 	{
+		zoomingState = ZoomingState.isZooming;
 		float finalValue = initialOrthographicSize / magnitude;
 		float time = 0;
 
@@ -99,20 +115,33 @@ public class CameraController : MonoBehaviour
 		}
 
 		cam.orthographicSize = finalValue;
-
-		dezoomCoroutine = null;
+		zoomingState = ZoomingState.zoomed;
+		zoomCoroutine = null;
 	}
 
 	Coroutine dezoomCoroutine;
 
 	public void Dezoom(float duration = 1f)
 	{
+		if(zoomingState == ZoomingState.dezoomed || zoomingState == ZoomingState.isDezooming)
+			return;
+
+		if(zoomingState == ZoomingState.isZooming)
+		{
+			if(zoomCoroutine != null)
+			{
+				StopCoroutine(zoomCoroutine);
+				zoomCoroutine = null;
+			}
+		}
+
 		if(dezoomCoroutine == null)
 			dezoomCoroutine = StartCoroutine(DezoomCoroutine(duration));
 	}
 
 	IEnumerator DezoomCoroutine(float duration)
 	{
+		zoomingState = ZoomingState.isDezooming;
 		float initialValue = cam.orthographicSize;
 		float finalValue = initialOrthographicSize;
 		float time = 0;
@@ -125,7 +154,7 @@ public class CameraController : MonoBehaviour
 		}
 
 		cam.orthographicSize = finalValue;
-
-		zoomCoroutine = null;
+		zoomingState = ZoomingState.dezoomed;
+		dezoomCoroutine = null;
 	}
 }

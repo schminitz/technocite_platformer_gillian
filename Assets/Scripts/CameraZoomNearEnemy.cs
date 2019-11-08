@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraZoomNearEnemy : MonoBehaviour
 {
 	public float circleRadius;
+	public float circleOutRadius;
 	public LayerMask enemyLayer;
 	public float zoomMagnitude;
 
@@ -24,7 +25,9 @@ public class CameraZoomNearEnemy : MonoBehaviour
 		{
 			cameraController.Zoom(zoomMagnitude, 1f);
 		}
-		else
+
+		Collider2D[] enemiesCollidersOut = Physics2D.OverlapCircleAll(transform.position, circleOutRadius, enemyLayer);
+		if(enemiesCollidersOut.Length == 0)
 		{
 			cameraController.Dezoom(0.5f);
 		}

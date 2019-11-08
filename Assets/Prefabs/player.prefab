@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleRadius: 5
+  circleOutRadius: 5.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
