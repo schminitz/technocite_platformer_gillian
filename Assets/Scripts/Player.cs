@@ -45,7 +45,9 @@ public class Player : MonoBehaviour
 	MovementController movementController;
 	AnimationTimes animationTimes;
 
-	bool freeze;
+
+	public bool freeze { get { return _freeze; } }
+	public bool _freeze;
 
     // Start is called before the first frame update
     void Start()
@@ -101,11 +103,11 @@ public class Player : MonoBehaviour
 
 		horizontal = 0;
 
-		if(Input.GetKey(KeyCode.D) && !freeze)
+		if(Input.GetKey(KeyCode.D) && !_freeze)
 		{
 			horizontal += 1;
 		}
-		if(Input.GetKey(KeyCode.Q) && !freeze)
+		if(Input.GetKey(KeyCode.Q) && !_freeze)
 		{
 			horizontal -= 1;
 		}
@@ -156,7 +158,7 @@ public class Player : MonoBehaviour
 
 	void UpdateAnimationByCode()
 	{
-		if(freeze)
+		if(_freeze)
 			return;
 
 		// Au sol
@@ -197,7 +199,7 @@ public class Player : MonoBehaviour
 
 	void UpdateFlip()
 	{
-		if(freeze)
+		if(_freeze)
 			return;
 
 		if(velocity.x > 0)
@@ -220,7 +222,7 @@ public class Player : MonoBehaviour
 			doubleJumping = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && !freeze)
+		if (Input.GetKeyDown(KeyCode.Space) && !_freeze)
 		{
 			// Normal jump
 			if(movementController.collisions.bottom)
@@ -243,7 +245,7 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	void Jump()
+	public void Jump()
 	{
 		velocity.y = jumpForce;
 	}
@@ -301,18 +303,23 @@ public class Player : MonoBehaviour
 
 	IEnumerator HitEnemyCoroutine(Enemy enemy)
 	{
-		// XXX pushback
-		velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
-		anim.Play("FrogHit");
-		freeze = true;
+		yield return new WaitForEndOfFrame();
 
-		// Wait for the time of the FrogHit animation to be finished
-		yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
+		if (enemy.dangerous)
+		{
+			velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
+			anim.Play("FrogHit");
+			_freeze = true;
 
-		SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
-		spawnPlayer.Spawn();
+			// Wait for the time of the FrogHit animation to be finished
+			yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
 
-		freeze = false;
-		Destroy(gameObject);
+			SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
+			spawnPlayer.Spawn();
+
+			_freeze = false;
+			Destroy(gameObject);
+		}
+		hitEnemy = null;
 	}
 }
