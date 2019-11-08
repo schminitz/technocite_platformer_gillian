@@ -45,12 +45,10 @@ public class Player : MonoBehaviour
 	MovementController movementController;
 	AnimationTimes animationTimes;
 
+	public bool freeze { get; private set; }
 
-	public bool freeze { get { return _freeze; } }
-	public bool _freeze;
-
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
 		// Math calculation acceleration
 		// s = distance
@@ -103,11 +101,11 @@ public class Player : MonoBehaviour
 
 		horizontal = 0;
 
-		if(Input.GetKey(KeyCode.D) && !_freeze)
+		if((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) && !freeze)
 		{
 			horizontal += 1;
 		}
-		if(Input.GetKey(KeyCode.Q) && !_freeze)
+		if((Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow)) && !freeze)
 		{
 			horizontal -= 1;
 		}
@@ -158,7 +156,7 @@ public class Player : MonoBehaviour
 
 	void UpdateAnimationByCode()
 	{
-		if(_freeze)
+		if(freeze)
 			return;
 
 		// Au sol
@@ -199,7 +197,7 @@ public class Player : MonoBehaviour
 
 	void UpdateFlip()
 	{
-		if(_freeze)
+		if(freeze)
 			return;
 
 		if(velocity.x > 0)
@@ -222,7 +220,7 @@ public class Player : MonoBehaviour
 			doubleJumping = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && !_freeze)
+		if (Input.GetKeyDown(KeyCode.Space) && !freeze)
 		{
 			// Normal jump
 			if(movementController.collisions.bottom)
@@ -309,7 +307,7 @@ public class Player : MonoBehaviour
 		{
 			velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
 			anim.Play("FrogHit");
-			_freeze = true;
+			freeze = true;
 
 			// Wait for the time of the FrogHit animation to be finished
 			yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
@@ -317,7 +315,7 @@ public class Player : MonoBehaviour
 			SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
 			spawnPlayer.Spawn();
 
-			_freeze = false;
+			freeze = false;
 			Destroy(gameObject);
 		}
 		hitEnemy = null;
