@@ -320,4 +320,10 @@ public class Player : MonoBehaviour
 		}
 		hitEnemy = null;
 	}
+
+	public void Freeze()
+	{
+		freeze = true;
+		anim.Play("FrogIdle");
+	}
 }
