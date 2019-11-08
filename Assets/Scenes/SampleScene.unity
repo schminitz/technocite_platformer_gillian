@@ -10547,25 +10547,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8655677928162490841, guid: 1a69cf03492b76048ae11c3584b7b574,
-        type: 3}
-      propertyPath: minStageLimit.x
-      value: -21
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655677928162490841, guid: 1a69cf03492b76048ae11c3584b7b574,
-        type: 3}
-      propertyPath: minStageLimit.y
-      value: -16
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655677928162490841, guid: 1a69cf03492b76048ae11c3584b7b574,
-        type: 3}
-      propertyPath: maxStageLimit.x
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655677928162490841, guid: 1a69cf03492b76048ae11c3584b7b574,
-        type: 3}
-      propertyPath: maxStageLimit.y
-      value: 16
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a69cf03492b76048ae11c3584b7b574, type: 3}

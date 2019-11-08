@@ -96,3 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a1b3391f5faa6438821774788ce6fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxStageLimit: {x: 21, y: 16}
+  minStageLimit: {x: -21, y: -16}
