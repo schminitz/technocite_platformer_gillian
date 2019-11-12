@@ -48,6 +48,20 @@ public class Player : MonoBehaviour
 
 	public bool freeze { get; private set; }
 
+	private Dictionary<string, Vector2> externalVelocity = new Dictionary<string, Vector2>();
+	private Vector2 velocityCalculated
+	{
+		get
+		{
+			Vector2 _velocity = velocity;
+			foreach (Vector2 vel in externalVelocity.Values)
+			{
+				_velocity += vel;
+			}
+			return _velocity;
+		}
+	}
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -84,7 +98,7 @@ public class Player : MonoBehaviour
 		UpdateJump();
 		UpdateFlip();
 
-		movementController.Move(velocity * Time.deltaTime);
+		movementController.Move(velocityCalculated * Time.deltaTime);
 
 		UpdateAnimation();
 	}
@@ -333,5 +347,27 @@ public class Player : MonoBehaviour
 	{
 		freeze = true;
 		anim.Play("FrogIdle");
+	}
+
+	public void AddExternalVelocity(string id, Vector2 _velocity)
+	{
+		// Add new value
+		if (!externalVelocity.ContainsKey(id))
+		{
+			externalVelocity.Add(id, _velocity);
+		}
+		// Set existing value
+		else
+		{
+			externalVelocity[id] = _velocity;
+		}
+	}
+
+	public void RemoveExternalVelocity(string id)
+	{
+		if(externalVelocity.ContainsKey(id))
+		{
+			externalVelocity.Remove(id);
+		}
 	}
 }
