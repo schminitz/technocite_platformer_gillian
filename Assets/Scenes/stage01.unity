@@ -12504,7 +12504,7 @@ PrefabInstance:
     - target: {fileID: 3039631619622073715, guid: 2de29eb870aae7941948fed76d0d4160,
         type: 3}
       propertyPath: m_Name
-      value: game
+      value: game_dontdestroy
       objectReference: {fileID: 0}
     - target: {fileID: 3646441038978257727, guid: 2de29eb870aae7941948fed76d0d4160,
         type: 3}
@@ -12632,26 +12632,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed00e09a42600b04694013df52def9d3, type: 3}
---- !u!1 &1809138275720492778 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6576807027080123560, guid: ed00e09a42600b04694013df52def9d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1809138275720492777}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1809138275720492779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809138275720492778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03c97a96fa06fbb4dad1a0fc7e8adc60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerToSpawn: {fileID: 3627327734871821154, guid: a481400454bd618409faec2a0c4e438f,
-    type: 3}
 --- !u!1001 &3849169528729085297
 PrefabInstance:
   m_ObjectHideFlags: 0

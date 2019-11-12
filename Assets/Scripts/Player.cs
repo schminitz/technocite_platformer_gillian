@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(MovementController))]
 [RequireComponent(typeof(AnimationTimes))]
@@ -311,6 +312,13 @@ public class Player : MonoBehaviour
 
 			// Wait for the time of the FrogHit animation to be finished
 			yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
+
+			Game.Instance.lifeCount--;
+			if(Game.Instance.lifeCount < 0)
+			{
+				SceneManager.LoadScene("game_over");
+				yield return null;
+			}
 
 			SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
 			spawnPlayer.Spawn();
