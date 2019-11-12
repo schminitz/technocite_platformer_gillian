@@ -239,7 +239,7 @@ public class Player : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space) && !freeze)
 		{
 			// Normal jump
-			if(movementController.collisions.bottom)
+			if(movementController.collisions.bottom || movementController.collisions.bottomBuffer)
 			{
 				Jump();
 			}
@@ -247,7 +247,9 @@ public class Player : MonoBehaviour
 			else if(
 				!movementController.collisions.bottom &&
 				(movementController.collisions.left ||
-				 movementController.collisions.right))
+				 movementController.collisions.leftBuffer ||
+				 movementController.collisions.right ||
+				 movementController.collisions.rightBuffer))
 			{
 				WallJump();
 			}
@@ -266,7 +268,7 @@ public class Player : MonoBehaviour
 
 	void WallJump()
 	{
-		int direction = movementController.collisions.left ? 1 : -1;
+		int direction = movementController.collisions.leftBuffer ? 1 : -1;
 		velocity.x = maxSpeed * direction;
 		Jump();
 	}
