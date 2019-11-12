@@ -7312,12 +7312,12 @@ PrefabInstance:
     - target: {fileID: 8146703442328108411, guid: 01687df495c12d94a8550d5ed92edf78,
         type: 3}
       propertyPath: distance
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8146703442328108411, guid: 01687df495c12d94a8550d5ed92edf78,
         type: 3}
       propertyPath: speed
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01687df495c12d94a8550d5ed92edf78, type: 3}
