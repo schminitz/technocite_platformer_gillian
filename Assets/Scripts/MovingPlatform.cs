@@ -29,11 +29,7 @@ public class MovingPlatform : MonoBehaviour
 
 		float difference = Mathf.Abs(transform.position.x - targetPosition.x);
 
-		if(difference > distance)
-		{
-			direction *= -1;
-		}
-		if(difference < 0)
+		if(difference > distance || difference < 0)
 		{
 			direction *= -1;
 		}
