@@ -7229,21 +7229,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 968480605}
     m_Modifications:
+    - target: {fileID: 829278633429396435, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 829278633429396435, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 829278633429396435, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 829278633429396435, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3104850048688178845, guid: 01687df495c12d94a8550d5ed92edf78,
         type: 3}
       propertyPath: m_Name
       value: moving_platform
-      objectReference: {fileID: 0}
-    - target: {fileID: 3104850048688178845, guid: 01687df495c12d94a8550d5ed92edf78,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
-        type: 0}
-    - target: {fileID: 3104850048688178845, guid: 01687df495c12d94a8550d5ed92edf78,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2811572693737176149, guid: 01687df495c12d94a8550d5ed92edf78,
         type: 3}
@@ -7299,6 +7308,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146703442328108411, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: distance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146703442328108411, guid: 01687df495c12d94a8550d5ed92edf78,
+        type: 3}
+      propertyPath: speed
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01687df495c12d94a8550d5ed92edf78, type: 3}

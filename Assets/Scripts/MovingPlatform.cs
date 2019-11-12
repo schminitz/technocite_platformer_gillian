@@ -42,7 +42,10 @@ public class MovingPlatform : MonoBehaviour
 	private void OnTriggerStay2D(Collider2D collision)
 	{
 		Player player = collision.GetComponent<Player>();
-		if(player != null && player.movementController.collisions.bottom)
+		if(player != null &&
+			(player.movementController.collisions.bottom ||
+			 player.movementController.collisions.left ||
+			 player.movementController.collisions.right))
 		{
 			player.AddExternalVelocity(movingPlatformId, velocity);
 		}
