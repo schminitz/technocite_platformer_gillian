@@ -11,14 +11,12 @@ public class RouagePush : MonoBehaviour
 
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		Debug.Log(pushDirection.x);
-		Debug.Log(pushDirection.normalized);
-
 		Player player = collision.GetComponent<Player>();
 		if (player != null)
 		{
-			//Debug.Log(pushDirection.normalized * pushPower);
-			player.AddExternalVelocity(pushId, pushDirection.normalized * pushPower);
+			player.AddExternalVelocity(
+				pushId,
+				pushDirection.normalized * pushPower);
 		}
 	}
 

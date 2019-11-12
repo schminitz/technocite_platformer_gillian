@@ -42,12 +42,12 @@ public class Player : MonoBehaviour
 	Animator anim;
 	SpriteRenderer spriteRenderer;
 
-	Vector2 velocity = new Vector2();
 	MovementController movementController;
 	AnimationTimes animationTimes;
 
 	public bool freeze { get; private set; }
 
+	Vector2 velocity = new Vector2();
 	private Dictionary<string, Vector2> externalVelocity = new Dictionary<string, Vector2>();
 	private Vector2 velocityCalculated
 	{
