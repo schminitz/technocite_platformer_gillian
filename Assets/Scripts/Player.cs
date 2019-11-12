@@ -42,7 +42,8 @@ public class Player : MonoBehaviour
 	Animator anim;
 	SpriteRenderer spriteRenderer;
 
-	MovementController movementController;
+	[HideInInspector]
+	public MovementController movementController;
 	AnimationTimes animationTimes;
 
 	public bool freeze { get; private set; }
