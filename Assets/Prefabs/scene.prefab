@@ -70,6 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7019586727395553901}
   - component: {fileID: 8462706418671591187}
+  - component: {fileID: 3028037971385025102}
   m_Layer: 0
   m_Name: scene
   m_TagString: Untagged
@@ -107,3 +108,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomLeftLimit: {fileID: 1526751722}
   topRightLimit: {fileID: 261485708}
+--- !u!114 &3028037971385025102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2692729554374112873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4006446b9a6607546bc35257a992af15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

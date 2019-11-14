@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ChickenType { white, red, black }
+
 [RequireComponent(typeof(MovementController))]
 public class Enemy : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class Enemy : MonoBehaviour
 	public float pushBackForce;
 	[HideInInspector]
 	public bool dangerous;
+	public string sentence;
+	public ChickenType chickenType;
 
 	MovementController movementController;
 	SpriteRenderer spriteRenderer;

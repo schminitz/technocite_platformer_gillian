@@ -331,7 +331,7 @@ public class Player : MonoBehaviour
 			yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
 
 			Game.Instance.lifeCount--;
-			if(Game.Instance.lifeCount < 0)
+			if(Game.Instance.lifeCount <= 0)
 			{
 				SceneManager.LoadScene("game_over");
 				yield return null;

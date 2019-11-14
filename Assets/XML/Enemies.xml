@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<EnemiesRoot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Enemies>
+		<EnemyXML name="Poulet 1">
+			<Position>
+				<x>-6.18</x>
+				<y>7</y>
+			</Position>
+			<Speed>3</Speed>
+			<FacingRight>false</FacingRight>
+			<Sentence>Salut mon poulet!</Sentence>
+			<MyChickenType>red</MyChickenType>
+		</EnemyXML>
+		<EnemyXML name="Poulet 2">
+			<Position>
+				<x>-1.18</x>
+				<y>-1</y>
+			</Position>
+			<Speed>6</Speed>
+			<FacingRight>true</FacingRight>
+			<Sentence>Salut mon poulet 2!</Sentence>
+			<MyChickenType>white</MyChickenType>
+		</EnemyXML>
+		<EnemyXML name="Poulet 3">
+			<Position>
+				<x>1.82</x>
+				<y>-8</y>
+			</Position>
+			<Speed>3</Speed>
+			<FacingRight>false</FacingRight>
+			<Sentence>Salut mon poulet 3!</Sentence>
+			<MyChickenType>black</MyChickenType>
+		</EnemyXML>
+		<EnemyXML name="Poulet 4">
+			<Position>
+				<x>13.82</x>
+				<y>4</y>
+			</Position>
+			<Speed>4</Speed>
+			<FacingRight>false</FacingRight>
+			<Sentence>Salut mon poulet 4!</Sentence>
+			<MyChickenType>white</MyChickenType>
+		</EnemyXML>
+		<EnemyXML name="Poulet 5">
+			<Position>
+				<x>19.82</x>
+				<y>6</y>
+			</Position>
+			<Speed>3</Speed>
+			<FacingRight>false</FacingRight>
+			<Sentence>Salut mon poulet 5!</Sentence>
+			<MyChickenType>white</MyChickenType>
+		</EnemyXML>
+		<EnemyXML name="Poulet 6">
+			<Position>
+				<x>13.82</x>
+				<y>-4</y>
+			</Position>
+			<Speed>5</Speed>
+			<FacingRight>true</FacingRight>
+			<Sentence>Salut mon poulet 6!</Sentence>
+			<MyChickenType>white</MyChickenType>
+		</EnemyXML>
+	</Enemies>
+</EnemiesRoot>
