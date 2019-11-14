@@ -32,6 +32,9 @@ public class Flag : MonoBehaviour
 
 		yield return new WaitForSeconds(GetComponent<AnimationTimes>().GetTime("FlagReach"));
 
+		PlayerPrefs.SetString("level", sceneToLoad);
+		PlayerPrefs.Save();
+
 		SceneManager.LoadScene(sceneToLoad);
 	}
 }
