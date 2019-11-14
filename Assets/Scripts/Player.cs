@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
 	[Tooltip("Can i change direction in air?")]
 	[Range(0, 1)]
 	public float airControl;
+	[Tooltip("Minimum time on ascension in jump")]
+	public float minAscensionTime;
 
 	[Header("Other")]
 	public bool animationByParameters;
@@ -261,9 +263,42 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	Coroutine jumpCoroutine;
 	public void Jump()
 	{
+		if (jumpCoroutine != null)
+		{
+			StopCoroutine(jumpCoroutine);
+		}
+
+		jumpCoroutine = StartCoroutine(JumpCoroutine());
+	}
+
+	IEnumerator JumpCoroutine()
+	{
 		velocity.y = jumpForce;
+
+		float time = 0;
+		while (time < minAscensionTime)
+		{
+			time += Time.deltaTime;
+			yield return null;
+		}
+
+		while (true)
+		{
+			if (!Input.GetKey(KeyCode.Space))
+			{
+				break;
+			}
+			if (velocity.y <= 0)
+			{
+				break;
+			}
+			yield return null;
+		}
+
+		velocity.y = 0;
 	}
 
 	void WallJump()

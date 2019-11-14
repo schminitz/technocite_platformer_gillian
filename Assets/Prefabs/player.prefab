@@ -217,11 +217,12 @@ MonoBehaviour:
   maxSpeed: 10
   timeToMaxSpeed: 0.5
   maxAirJump: 1
-  jumpHeight: 3.8
-  timeToMaxJump: 0.3
+  jumpHeight: 5
+  timeToMaxJump: 0.4
   airControl: 0.25
+  minAscensionTime: 0.1
   animationByParameters: 0
-  _freeze: 0
+  movementController: {fileID: 0}
 --- !u!50 &152382302
 Rigidbody2D:
   serializedVersion: 4
