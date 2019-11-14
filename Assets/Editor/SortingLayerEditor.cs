@@ -21,7 +21,10 @@ public class SortingLayerEditor : Editor
 	void OnEnable()
 	{
 		GameObject go = Selection.activeGameObject;
-		meshRenderer = go.GetComponent<MeshRenderer>();
+		if (go != null)
+		{
+			meshRenderer = go.GetComponent<MeshRenderer>();
+		}
 
 		sortingLayer = serializedObject.FindProperty("sortingLayer");
 		sortingOrder = serializedObject.FindProperty("sortingOrder");
