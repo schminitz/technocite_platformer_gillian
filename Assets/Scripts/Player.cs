@@ -232,7 +232,7 @@ public class Player : MonoBehaviour
 	{
 		if (movementController.collisions.bottom)
 		{
-			doubleJumpCount = 0;
+			ResetDoubleJumpCount();
 			doubleJumping = false;
 		}
 
@@ -276,6 +276,11 @@ public class Player : MonoBehaviour
 	void DoubleJump()
 	{
 		StartCoroutine(DoubleJumpCoroutine());
+	}
+
+	public void ResetDoubleJumpCount()
+	{
+		doubleJumpCount = 0;
 	}
 
 	IEnumerator DoubleJumpCoroutine()

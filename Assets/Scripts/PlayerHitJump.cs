@@ -35,6 +35,7 @@ public class PlayerHitJump : MonoBehaviour
 		if (!movementController.collisions.bottom && !player.freeze)
 		{
 			player.Jump();
+			player.ResetDoubleJumpCount();
 			enemy.Die();
 		}
 	}

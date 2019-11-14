@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 	public bool dangerous;
 	public string sentence;
 	public ChickenType chickenType;
+	public bool cinematicMode;
 
 	MovementController movementController;
 	SpriteRenderer spriteRenderer;
@@ -48,6 +49,9 @@ public class Enemy : MonoBehaviour
 
 	void UpdateFlip()
 	{
+		if(cinematicMode)
+			return;
+
 		// Si on se déplace vers la droite, et touche un mur vers la droite OU BIEN
 		// si on se déplace vers la gauche, et touche un mur vers la gauche
 		if((velocity.x > 0 && movementController.collisions.right) ||
