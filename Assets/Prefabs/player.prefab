@@ -221,6 +221,7 @@ MonoBehaviour:
   timeToMaxJump: 0.4
   airControl: 0.25
   minAscensionTime: 0.1
+  holeLimit: -24
   animationByParameters: 0
   movementController: {fileID: 0}
 --- !u!50 &152382302

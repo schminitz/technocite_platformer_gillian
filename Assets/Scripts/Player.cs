@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
 	[Tooltip("Minimum time on ascension in jump")]
 	public float minAscensionTime;
 
+	[Tooltip("Minimum y position before dying")]
+	public float holeLimit;
+
 	[Header("Other")]
 	public bool animationByParameters;
 
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
 
 	Animator anim;
 	SpriteRenderer spriteRenderer;
+	LifeCountGUI lifeCountGUI;
 
 	[HideInInspector]
 	public MovementController movementController;
@@ -81,6 +85,7 @@ public class Player : MonoBehaviour
 		anim = GetComponent<Animator>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animationTimes = GetComponent<AnimationTimes>();
+		lifeCountGUI = FindObjectOfType<LifeCountGUI>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
@@ -100,6 +105,7 @@ public class Player : MonoBehaviour
 		UpdateGravity();
 		UpdateJump();
 		UpdateFlip();
+		UpdateFallInHOle();
 
 		movementController.Move(velocityCalculated * Time.deltaTime);
 
@@ -370,20 +376,34 @@ public class Player : MonoBehaviour
 			// Wait for the time of the FrogHit animation to be finished
 			yield return new WaitForSeconds(animationTimes.GetTime("FrogHit"));
 
-			Game.Instance.lifeCount--;
-			if(Game.Instance.lifeCount <= 0)
-			{
-				SceneManager.LoadScene("game_over");
-				yield return null;
-			}
-
-			SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
-			spawnPlayer.Spawn();
-
 			freeze = false;
-			Destroy(gameObject);
+			Die();
 		}
 		hitEnemy = null;
+	}
+
+	void Die()
+	{
+		Game.Instance.lifeCount--;
+		if(Game.Instance.lifeCount <= 0)
+		{
+			SceneManager.LoadScene("game_over");
+			return;
+		}
+
+		SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
+		spawnPlayer.Spawn();
+
+		lifeCountGUI.RefreshLifeCount();
+		Destroy(gameObject);
+	}
+
+	void UpdateFallInHOle()
+	{
+		if (transform.position.y < holeLimit)
+		{
+			Die();
+		}
 	}
 
 	public void Freeze()
