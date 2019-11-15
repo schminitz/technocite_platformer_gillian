@@ -143,10 +143,17 @@ public class MenuController : MonoBehaviour
 
 	void ActionNewGame()
 	{
+		SceneManager.LoadScene("stage01");
 	}
 
 	void ActionContinue()
 	{
+		if (PlayerPrefs.GetString("level", "") == "")
+		{
+			return;
+		}
+
+		SceneManager.LoadScene(PlayerPrefs.GetString("level", "stage01"));
 	}
 
 	void ActionResolution()
