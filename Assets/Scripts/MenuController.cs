@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class MenuController : MonoBehaviour
 {
@@ -35,11 +37,92 @@ public class MenuController : MonoBehaviour
 		{
 			NavigateUpDown(goDown: false);
 		}
+		else if(Input.GetKeyDown(KeyCode.Return))
+		{
+			CallAction();
+		}
+		else if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			GoToParent();
+		}
 	}
+
+	void CallAction()
+	{
+		switch(activeMenuItem.action)
+		{
+			case MenuAction.GoDeeper:
+				ActionGoDeeper();
+				break;
+			case MenuAction.Credits:
+				ActionCredits();
+				break;
+			case MenuAction.Quit:
+				ActionQuit();
+				break;
+			case MenuAction.NewGame:
+				ActionNewGame();
+				break;
+			case MenuAction.Continue:
+				ActionContinue();
+				break;
+			case MenuAction.Resolution:
+				ActionResolution();
+				break;
+			case MenuAction.Fullscreen:
+				ActionFullscreen();
+				break;
+			default:
+				break;
+		}
+	}
+
+	void GoToParent()
+	{
+	}
+
+	#region Actions
+	void ActionGoDeeper()
+	{
+		activeMenuItem.ShowAllSubItems();
+		// Change the actual list of menu items
+		menuItems = activeMenuItem.subMenuItems;
+
+		InitMenu();
+	}
+
+	void ActionCredits()
+	{
+		SceneManager.LoadScene("credits");
+	}
+
+	void ActionQuit()
+	{
+		Debug.Log("Quitting game");
+		Application.Quit();
+	}
+
+	void ActionNewGame()
+	{
+	}
+
+	void ActionContinue()
+	{
+	}
+
+	void ActionResolution()
+	{
+	}
+
+	void ActionFullscreen()
+	{
+	}
+
+	#endregion
 
 	void NavigateUpDown(bool goDown)
 	{
-		if (goDown)
+		if(goDown)
 			activeIndex++;
 		else
 			activeIndex--;
@@ -53,15 +136,19 @@ public class MenuController : MonoBehaviour
 
 	void InitMenu()
 	{
+		activeIndex = 0;
+		activeMenuItem = menuItems[0];
+
+		int i = 0;
 		foreach (MenuItem menuItem in menuItems)
 		{
 			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
 			textMesh.text = menuItem.label;
 			menuItem.SetInactive(inactiveColor);
+			menuItem.InitAllSubItems();
+			i++;
 		}
 
-		activeIndex = 0;
-		activeMenuItem = menuItems[0];
 		activeMenuItem.SetActive(activeColor);
 	}
 }

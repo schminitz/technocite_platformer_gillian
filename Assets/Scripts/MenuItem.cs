@@ -36,4 +36,42 @@ public class MenuItem : MonoBehaviour
 	{
 		textMesh.color = color;
 	}
+
+	void Hide()
+	{
+		gameObject.SetActive(false);
+	}
+
+	public void InitAllSubItems()
+	{
+		foreach (MenuItem menuItem in subMenuItems)
+		{
+			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
+			textMesh.text = menuItem.label;
+
+			menuItem.Hide();
+			menuItem.InitAllSubItems();
+		}
+	}
+
+	public void HideAllSubItems()
+	{
+		foreach(MenuItem menuItem in subMenuItems)
+		{
+			menuItem.Hide();
+		}
+	}
+
+	void Show()
+	{
+		gameObject.SetActive(true);
+	}
+
+	public void ShowAllSubItems()
+	{
+		foreach(MenuItem menuItem in subMenuItems)
+		{
+			menuItem.Show();
+		}
+	}
 }
