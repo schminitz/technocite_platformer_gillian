@@ -168,6 +168,12 @@ public class MenuController : MonoBehaviour
 
 	void ActionFullscreen()
 	{
+		// Inverted cause called before the change
+		if(Screen.fullScreen)
+			activeMenuItem.RefreshLabel("Windowed");
+		else
+			activeMenuItem.RefreshLabel("Fullscreen");
+
 		Screen.SetResolution(
 			Screen.width,
 			Screen.height,
@@ -213,11 +219,7 @@ public class MenuController : MonoBehaviour
 		int i = 0;
 		foreach (MenuItem menuItem in menuItems)
 		{
-			if (menuItem.action == MenuAction.Resolution)
-				menuItem.RefreshLabel(availableResolutions[resolutionIndex].label);
-			else
-				menuItem.RefreshLabel();
-
+			RefreshItemLabel(menuItem);
 			menuItem.SetInactive(inactiveColor);
 			menuItem.InitAllSubItems(menuItem, menuItems);
 			menuItem.index = i;
@@ -225,5 +227,15 @@ public class MenuController : MonoBehaviour
 		}
 
 		activeMenuItem.SetActive(activeColor);
+	}
+
+	void RefreshItemLabel(MenuItem menuItem)
+	{
+		if(menuItem.action == MenuAction.Resolution)
+			menuItem.RefreshLabel(availableResolutions[resolutionIndex].label);
+		else if (menuItem.action == MenuAction.Fullscreen)
+			menuItem.RefreshLabel(Screen.fullScreen ? "Fullscreen" : "Windowed");
+		else
+			menuItem.RefreshLabel();
 	}
 }
