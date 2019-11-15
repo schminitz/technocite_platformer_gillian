@@ -54,9 +54,7 @@ public class MenuItem : MonoBehaviour
 		int i = 0;
 		foreach(MenuItem menuItem in subMenuItems)
 		{
-			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
-			textMesh.text = menuItem.label;
-
+			RefreshLabel();
 			menuItem.Hide();
 			menuItem.InitAllSubItems(menuItem, subMenuItems);
 			menuItem.parent = parent;
@@ -85,5 +83,13 @@ public class MenuItem : MonoBehaviour
 		{
 			menuItem.Show();
 		}
+	}
+
+	public void RefreshLabel(string newLabel = "")
+	{
+		if (newLabel == "")
+			newLabel = label;
+
+		textMesh.text = newLabel;
 	}
 }

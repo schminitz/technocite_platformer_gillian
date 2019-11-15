@@ -13,6 +13,17 @@ public class MenuController : MonoBehaviour
 	MenuItem activeMenuItem;
 	int activeIndex;
 
+	public List<AvailableResolution> availableResolutions;
+	int resolutionIndex = 0;
+
+	[System.Serializable]
+	public struct AvailableResolution
+	{
+		public string label;
+		public int width;
+		public int height;
+	}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +56,16 @@ public class MenuController : MonoBehaviour
 		{
 			GoToParent();
 		}
+		else if (Input.GetKeyDown(KeyCode.LeftArrow) ||
+			     Input.GetKeyDown(KeyCode.Q))
+		{
+			CallSwitch(goRight: false);
+		}
+		else if(Input.GetKeyDown(KeyCode.RightArrow) ||
+				 Input.GetKeyDown(KeyCode.D))
+		{
+			CallSwitch(goRight: true);
+		}
 	}
 
 	void CallAction()
@@ -73,6 +94,16 @@ public class MenuController : MonoBehaviour
 				ActionFullscreen();
 				break;
 			default:
+				break;
+		}
+	}
+
+	void CallSwitch(bool goRight)
+	{
+		switch (activeMenuItem.action)
+		{
+			case MenuAction.Resolution:
+				SwitchResolution(goRight);
 				break;
 		}
 	}
@@ -120,12 +151,37 @@ public class MenuController : MonoBehaviour
 
 	void ActionResolution()
 	{
+		AvailableResolution res = availableResolutions[resolutionIndex];
+		Screen.SetResolution(
+			res.width,
+			res.height,
+			Screen.fullScreen
+			);
 	}
 
 	void ActionFullscreen()
 	{
+		Screen.SetResolution(
+			Screen.width,
+			Screen.height,
+			!Screen.fullScreen
+			);
 	}
 
+	#endregion
+
+	#region Switch
+	void SwitchResolution(bool goRight)
+	{
+		if(goRight)
+			resolutionIndex++;
+		else
+			resolutionIndex--;
+
+		resolutionIndex = (int)Mathf.Repeat(resolutionIndex, availableResolutions.Count);
+
+		activeMenuItem.RefreshLabel(availableResolutions[resolutionIndex].label);
+	}
 	#endregion
 
 	void NavigateUpDown(bool goDown)
@@ -150,8 +206,11 @@ public class MenuController : MonoBehaviour
 		int i = 0;
 		foreach (MenuItem menuItem in menuItems)
 		{
-			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
-			textMesh.text = menuItem.label;
+			if (menuItem.action == MenuAction.Resolution)
+				menuItem.RefreshLabel(availableResolutions[resolutionIndex].label);
+			else
+				menuItem.RefreshLabel();
+
 			menuItem.SetInactive(inactiveColor);
 			menuItem.InitAllSubItems(menuItem, menuItems);
 			menuItem.index = i;
