@@ -19,6 +19,13 @@ public class MenuItem : MonoBehaviour
 	public MenuAction action;
 	public List<MenuItem> subMenuItems;
 
+	[HideInInspector]
+	public MenuItem parent;
+	[HideInInspector]
+	public List<MenuItem> parentList;
+	[HideInInspector]
+	public int index;
+
 	TextMesh textMesh;
 
 	// Start is called before the first frame update
@@ -42,15 +49,20 @@ public class MenuItem : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
-	public void InitAllSubItems()
+	public void InitAllSubItems(MenuItem parent, List<MenuItem> parentList)
 	{
-		foreach (MenuItem menuItem in subMenuItems)
+		int i = 0;
+		foreach(MenuItem menuItem in subMenuItems)
 		{
 			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
 			textMesh.text = menuItem.label;
 
 			menuItem.Hide();
-			menuItem.InitAllSubItems();
+			menuItem.InitAllSubItems(menuItem, subMenuItems);
+			menuItem.parent = parent;
+			menuItem.parentList = parentList;
+			menuItem.index = i;
+			i++;
 		}
 	}
 

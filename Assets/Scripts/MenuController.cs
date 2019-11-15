@@ -79,6 +79,14 @@ public class MenuController : MonoBehaviour
 
 	void GoToParent()
 	{
+		if(activeMenuItem.parent == null)
+			return;
+
+		menuItems = activeMenuItem.parentList;
+		activeMenuItem = activeMenuItem.parent;
+
+		activeMenuItem.HideAllSubItems();
+		activeIndex = activeMenuItem.index;
 	}
 
 	#region Actions
@@ -145,7 +153,8 @@ public class MenuController : MonoBehaviour
 			TextMesh textMesh = menuItem.GetComponent<TextMesh>();
 			textMesh.text = menuItem.label;
 			menuItem.SetInactive(inactiveColor);
-			menuItem.InitAllSubItems();
+			menuItem.InitAllSubItems(menuItem, menuItems);
+			menuItem.index = i;
 			i++;
 		}
 
