@@ -222,6 +222,11 @@ MonoBehaviour:
   airControl: 0.25
   minAscensionTime: 0.1
   holeLimit: -24
+  FootstepSounds:
+  - player_footstep_01
+  - player_footstep_02
+  - player_footstep_03
+  - player_footstep_04
   animationByParameters: 0
   movementController: {fileID: 0}
 --- !u!50 &152382302

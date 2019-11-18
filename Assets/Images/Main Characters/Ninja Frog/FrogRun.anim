@@ -113,14 +113,14 @@ AnimationClip:
   m_Events:
   - time: 0.2
     functionName: AnimationPlayFootStep
-    data: 
+    data: player_footstep
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
     functionName: AnimationPlayFootStep
-    data: 
+    data: player_die
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

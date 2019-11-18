@@ -52,8 +52,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 902c61acf5adaf04f9a7068bc29513c0, type: 3}
   - name: player_die
     clip: {fileID: 8300000, guid: 46f8ae2be7b0ff74f9412469dd639196, type: 3}
-  - name: player_footstep
-    clip: {fileID: 8300000, guid: 51f64710834a58c49b39b1f89da1271e, type: 3}
+  - name: player_footstep_01
+    clip: {fileID: 8300000, guid: f03204ba27b5be5449215042ef3350ef, type: 3}
+  - name: player_footstep_02
+    clip: {fileID: 8300000, guid: 8c807bb0ad89e7344895598bf8fd2447, type: 3}
+  - name: player_footstep_03
+    clip: {fileID: 8300000, guid: ffb6510af5db13e46842ae3e24bafef9, type: 3}
+  - name: player_footstep_04
+    clip: {fileID: 8300000, guid: 044464a332245c244a4b332096e20e35, type: 3}
 --- !u!82 &5137992016263112024
 AudioSource:
   m_ObjectHideFlags: 0

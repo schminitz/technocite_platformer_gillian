@@ -30,6 +30,10 @@ public class Player : MonoBehaviour
 	[Tooltip("Minimum y position before dying")]
 	public float holeLimit;
 
+	[Header("Sounds")]
+	public List<string> FootstepSounds;
+	string lastFootstep;
+
 	[Header("Other")]
 	public bool animationByParameters;
 
@@ -441,6 +445,15 @@ public class Player : MonoBehaviour
 
 	void AnimationPlayFootStep()
 	{
-		SoundManager.Instance.PlaySoundEffect("player_footstep");
+		// Do not play the previous footstep sound
+		FootstepSounds.Remove(lastFootstep);
+
+		string randomFootStep = FootstepSounds[Random.Range(0, FootstepSounds.Count)];
+		SoundManager.Instance.PlaySoundEffect(randomFootStep);
+
+		if (lastFootstep != null)
+			FootstepSounds.Add(lastFootstep);
+
+		lastFootstep = randomFootStep;
 	}
 }
