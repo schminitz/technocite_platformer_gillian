@@ -45,13 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdfc4a3054e5b04cb25ebcf026736ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aSourceSFX: {fileID: 5137992016263112024}
+  aSourceMusic: {fileID: 441603903235045256}
   soundEffects:
   - name: player_jump
     clip: {fileID: 8300000, guid: 902c61acf5adaf04f9a7068bc29513c0, type: 3}
   - name: player_die
     clip: {fileID: 8300000, guid: 46f8ae2be7b0ff74f9412469dd639196, type: 3}
-  aSourceSFX: {fileID: 5137992016263112024}
-  aSourceMusic: {fileID: 441603903235045256}
+  SFXVolume: 0
+  musicVolume: 0
 --- !u!82 &5137992016263112024
 AudioSource:
   m_ObjectHideFlags: 0

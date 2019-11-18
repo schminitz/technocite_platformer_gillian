@@ -15,6 +15,9 @@ public class SoundManager : MonoBehaviour
 
 	static public SoundManager Instance { get; private set; }
 
+	public float SFXVolume;
+	public float musicVolume;
+
 	[System.Serializable]
 	public struct AudioClipStruct
 	{
@@ -42,6 +45,12 @@ public class SoundManager : MonoBehaviour
 		//soundEffects.Find(s => s.name == "");
 	}
 
+	private void Update()
+	{
+		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", musicVolume);
+		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("SFXVolume", SFXVolume);
+	}
+
 	void GenerateSoundEffectsDict()
 	{
 		foreach (AudioClipStruct audioClip in soundEffects)
@@ -52,7 +61,6 @@ public class SoundManager : MonoBehaviour
 
 	public void PlaySoundEffect(string clipName)
 	{
-		aSourceSFX.clip = soundEffectsDict[clipName];
-		aSourceSFX.Play();
+		aSourceSFX.PlayOneShot(soundEffectsDict[clipName]);
 	}
 }
