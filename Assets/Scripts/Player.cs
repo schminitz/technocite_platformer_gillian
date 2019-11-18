@@ -368,11 +368,11 @@ public class Player : MonoBehaviour
 	{
 		yield return new WaitForEndOfFrame();
 
-		SoundManager.Instance.LowerMusicPitch(animationTimes.GetTime("FrogHit"));
-		SoundManager.Instance.PlaySoundEffect("player_die");
-
 		if(enemy.dangerous)
 		{
+			SoundManager.Instance.LowerMusicPitch(animationTimes.GetTime("FrogHit"));
+			SoundManager.Instance.PlaySoundEffect("player_die");
+
 			velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
 			anim.Play("FrogHit");
 			freeze = true;
