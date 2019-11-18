@@ -438,4 +438,9 @@ public class Player : MonoBehaviour
 			externalVelocity.Remove(id);
 		}
 	}
+
+	void AnimationPlayFootStep()
+	{
+		SoundManager.Instance.PlaySoundEffect("player_footstep");
+	}
 }

@@ -224,8 +224,6 @@ MonoBehaviour:
   holeLimit: -24
   animationByParameters: 0
   movementController: {fileID: 0}
-  aSourceJump: {fileID: 0}
-  aSourceDie: {fileID: 0}
 --- !u!50 &152382302
 Rigidbody2D:
   serializedVersion: 4
