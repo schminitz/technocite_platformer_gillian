@@ -46,6 +46,12 @@ public class SoundManager : MonoBehaviour
 	{
 	}
 
+	/// <summary>
+	/// Prépare un dictionnaire contenant tous mes sound effects
+	/// {"player_die": playerDieClip,
+	///  "player_jump": playerJumpClip,
+	///  ...}
+	/// </summary>
 	void GenerateSoundEffectsDict()
 	{
 		foreach(AudioClipStruct audioClip in soundEffects)
@@ -56,9 +62,14 @@ public class SoundManager : MonoBehaviour
 
 	public void PlaySoundEffect(string clipName)
 	{
+		// PlayOneShot permet de lancer plusieurs sons sur le meme AudioSource sans conflit
 		aSourceSFX.PlayOneShot(soundEffectsDict[clipName]);
 	}
 
+	/// <summary>
+	/// Réduit le pitch de la musique de 100% à 0% pendant une certaine durée
+	/// </summary>
+	/// <param name="duration"></param>
 	public void LowerMusicPitch(float duration)
 	{
 		StartCoroutine(LowerMusicPitchCoroutine(duration));
