@@ -368,6 +368,7 @@ public class Player : MonoBehaviour
 	{
 		yield return new WaitForEndOfFrame();
 
+		SoundManager.Instance.LowerMusicPitch(animationTimes.GetTime("FrogHit"));
 		SoundManager.Instance.PlaySoundEffect("player_die");
 
 		if(enemy.dangerous)
@@ -395,6 +396,7 @@ public class Player : MonoBehaviour
 		}
 
 		SpawnPlayer spawnPlayer = FindObjectOfType<SpawnPlayer>();
+		SoundManager.Instance.SetMusicPitch(1f);
 		spawnPlayer.Spawn();
 
 		lifeCountGUI.RefreshLifeCount();

@@ -15,8 +15,6 @@ public class SoundManager : MonoBehaviour
 
 	static public SoundManager Instance { get; private set; }
 
-	public float musicPitch;
-
 	[System.Serializable]
 	public struct AudioClipStruct
 	{
@@ -46,12 +44,11 @@ public class SoundManager : MonoBehaviour
 
 	private void Update()
 	{
-		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicPitch", musicPitch);
 	}
 
 	void GenerateSoundEffectsDict()
 	{
-		foreach (AudioClipStruct audioClip in soundEffects)
+		foreach(AudioClipStruct audioClip in soundEffects)
 		{
 			soundEffectsDict.Add(audioClip.name, audioClip.clip);
 		}
@@ -61,4 +58,32 @@ public class SoundManager : MonoBehaviour
 	{
 		aSourceSFX.PlayOneShot(soundEffectsDict[clipName]);
 	}
+
+	public void LowerMusicPitch(float duration)
+	{
+		StartCoroutine(LowerMusicPitchCoroutine(duration));
+	}
+
+	IEnumerator LowerMusicPitchCoroutine(float duration)
+	{
+		float time = 0;
+		while (time <= duration)
+		{
+			// MusicPitch 1 > 0
+			float musicPitch = Mathf.Lerp(1, 0, time / duration);
+
+			aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicPitch", musicPitch);
+
+			time += Time.deltaTime;
+			yield return null;
+		}
+
+		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicPitch", 0f);
+	}
+
+	public void SetMusicPitch(float musicPitch)
+	{
+		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicPitch", musicPitch);
+	}
+
 }
