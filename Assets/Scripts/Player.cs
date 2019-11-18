@@ -51,7 +51,6 @@ public class Player : MonoBehaviour
 	[HideInInspector]
 	public MovementController movementController;
 	AnimationTimes animationTimes;
-	AudioSource aSource;
 
 	public bool freeze { get; private set; }
 
@@ -87,7 +86,6 @@ public class Player : MonoBehaviour
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animationTimes = GetComponent<AnimationTimes>();
 		lifeCountGUI = FindObjectOfType<LifeCountGUI>();
-		aSource = GetComponent<AudioSource>();
 
 		// Math calculation for gravity and jumpForce
 		gravity = -(2 * jumpHeight) / Mathf.Pow(timeToMaxJump, 2);
@@ -284,7 +282,7 @@ public class Player : MonoBehaviour
 
 	IEnumerator JumpCoroutine()
 	{
-		aSource.Play();
+		SoundManager.Instance.PlaySoundEffect("player_jump");
 		velocity.y = jumpForce;
 
 		float time = 0;
@@ -370,7 +368,9 @@ public class Player : MonoBehaviour
 	{
 		yield return new WaitForEndOfFrame();
 
-		if (enemy.dangerous)
+		SoundManager.Instance.PlaySoundEffect("player_die");
+
+		if(enemy.dangerous)
 		{
 			velocity.x = enemy.pushBackForce * Mathf.Sign(transform.position.x - enemy.transform.position.x);
 			anim.Play("FrogHit");
