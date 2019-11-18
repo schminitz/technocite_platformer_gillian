@@ -15,8 +15,7 @@ public class SoundManager : MonoBehaviour
 
 	static public SoundManager Instance { get; private set; }
 
-	public float SFXVolume;
-	public float musicVolume;
+	public float musicPitch;
 
 	[System.Serializable]
 	public struct AudioClipStruct
@@ -47,8 +46,7 @@ public class SoundManager : MonoBehaviour
 
 	private void Update()
 	{
-		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicVolume", musicVolume);
-		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("SFXVolume", SFXVolume);
+		aSourceSFX.outputAudioMixerGroup.audioMixer.SetFloat("MusicPitch", musicPitch);
 	}
 
 	void GenerateSoundEffectsDict()
